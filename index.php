@@ -31,7 +31,7 @@
       )
       ";
 
-      if(!empty($_POST['firstname']) && (!empty($_POST['lastname'])) && (!empty($_POST['email'])) ) {
+      if(!empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['email']) && !empty($_POST['messageTitle']) && !empty($_POST['message'])){
 
 
         $result1 = $conn->query($insertSQL) or die($conn->error);
@@ -68,9 +68,9 @@ while ($row    = mysqli_fetch_assoc($resource)) {
   <body>
     <header id="main-header"><h4>Guestbook<h4></header>
     <div id="main-container">
-    <div id="review-Form">
+    <p><div id="review-Form">
       Review Form:
-    </div>
+    </div></p>
     <div id="main-container-form">
     <form action="index.php" method="post">
       <input type="hidden" name="guestbookId" value="<?php echo['guestbookId'] ?>"/>
@@ -162,9 +162,9 @@ while ($row    = mysqli_fetch_assoc($resource)) {
     <input type="hidden" name="guestbookId" value="<?php echo $guestbook['guestbookId']?>"/>
   </form>
 </div>
-<div id="review-Form-PreviousMessages">
+<p><div id="review-Form-PreviousMessages">
   Previous Messages:
-</div>
+</div></p>
 <div id="main-container-PreviousMessages">
 <form action="index.php" method="post">
   <?php
