@@ -1,4 +1,8 @@
+<?php session_start(); ?>
 <?php include 'inc/connection.php'?>
+
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/securimage/securimage.php';
+$securimage = new Securimage();?>
 <?php
     if (isset($_POST['mySubmit'])) {
         // someone clicked the submit button
@@ -33,14 +37,23 @@
 
       if(!empty($_POST['firstname']) && !empty($_POST['lastname']) && !empty($_POST['email']) && !empty($_POST['messageTitle']) && !empty($_POST['message'])){
 
-
         $result1 = $conn->query($insertSQL) or die($conn->error);
 
         echo '<script language="javascript">';
         echo 'alert("Thanks for your post !")';
         echo '</script>';
-      }
+
+      if ($securimage->check($_POST['captcha_code']) == false) {
+  // the code was incorrect
+  // you should handle the error so that the form processor doesn't continue
+
+  // or you can use the following code if there is no validation or you do not know how
+  echo "The security code entered was incorrect.<br /><br />";
+  echo "Please go <a href='javascript:history.go(-1)'>back</a> and try again.";
+  exit;
+}
     }
+  }
 
 $selectReviewsQuery = "SELECT * FROM guestbook";
 
@@ -86,8 +99,7 @@ while ($row    = mysqli_fetch_assoc($resource)) {
          echo "Firstname isn't filled in";
      }?>
     </div></td></tr>
-    <tr><td>
-
+<tr><td>
   <div id="insertion-container">
   <label for="insertion" id="insertion-header">
     Insertion:
@@ -155,6 +167,11 @@ while ($row    = mysqli_fetch_assoc($resource)) {
      }?>
   </td>
 </div></tr>
+<tr><td colspan="2">
+  <img id="captcha" src="/securimage/securimage_show.php" alt="CAPTCHA Image" />
+  <input type="text" name="captcha_code" size="10" maxlength="6" id="captcha-field"/>
+<a id="captcha-differentImage" href="#" onclick="document.getElementById('captcha').src = '/securimage/securimage_show.php?' + Math.random(); return false">[ Different Image ]</a>
+</tr></td>
 </table>
     <div id="divSubmit">
     <a><input type="submit" name="mySubmit" value="Submit" id="submit-Button"/><input type="reset" name="reset" value="Reset" id="reset-Button"/>
@@ -185,7 +202,7 @@ while ($row    = mysqli_fetch_assoc($resource)) {
                                <tr><td colspan="4">Website Address: <?php echo($guestbook['websiteAddress']); ?></td></tr>
                                <tr><td colspan="4">Message Title: <?php echo($guestbook['messageTitle']); ?></td></tr>
                                <tr><td colspan="4">Message: <?php echo($guestbook['message']); ?></td></tr>
-                              <tr><td colspan="5"><hr /></td></tr>
+                               <tr><td colspan="5"><hr /></td></tr>
 
                               <?php
                           }

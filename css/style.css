@@ -81,7 +81,7 @@ h4 {
   font-size: 16px;
 }
 
-#Insertion-header {
+#insertion-header {
   font-family: rockwell;
   font-size: 16px;
 }
@@ -249,4 +249,16 @@ input[type=submit]:hover {
   src: url('../fonts/anudrg-webfont.woff2') format('woff2'), url('../fonts/anudrg-webfont.woff') format('woff');
   font-weight: normal;
   font-style: normal;
+}
+
+#captcha {
+  position: relative;
+}
+
+#captcha-field {
+  position: relative;
+}
+
+#captcha-differentImage {
+  position: relative;
 }
